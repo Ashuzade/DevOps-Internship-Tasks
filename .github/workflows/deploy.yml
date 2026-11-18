@@ -1,0 +1,21 @@
+
+name: Auto Dealer CD Pipeline
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deployment-status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Deployment status
+        run: |
+          echo "Auto Dealer CD pipeline is ready."
+          echo "AWS deployment is not enabled yet."
