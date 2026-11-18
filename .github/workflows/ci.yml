@@ -11,9 +11,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: auto_dealer_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ci_test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d auto_dealer_db"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
     defaults:
       run:
         working-directory: Auto-Dealer
+
+    env:
+      DB_URL: jdbc:postgresql://localhost:5432/auto_dealer_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: ci_test_password
 
     steps:
       - name: Checkout source code
