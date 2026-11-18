@@ -52,3 +52,22 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t auto-dealer-app:latest .
+
+      - name: Scan dependencies with Trivy
+        uses: aquasecurity/trivy-action@0.33.0
+        with:
+          scan-type: fs
+          scan-ref: Auto-Dealer
+          format: table
+          exit-code: "0"
+          scanners: vuln
+          severity: HIGH,CRITICAL
+
+      - name: Scan Docker image with Trivy
+        uses: aquasecurity/trivy-action@0.33.0
+        with:
+          scan-type: image
+          image-ref: auto-dealer-app:latest
+          format: table
+          exit-code: "0"
+          severity: HIGH,CRITICAL
